@@ -97,6 +97,7 @@ static const float kImageHeight = 144.0;
     view.contentMode = UIViewContentModeScaleAspectFit;
     view.frame = CGRectMake(21.4, 50, 504*0.55, kImageHeight*0.55);
 
+    [view addSubview:hh0];
     [view addSubview:hh1];
     [view addSubview:mm0];
     [view addSubview:mm1];
@@ -114,7 +115,6 @@ static const float kImageHeight = 144.0;
 - (void)update
 {
     NSArray *imageNames = [self getClockImageNames];
-    NSLog(@"imageNames: %@", imageNames);
 
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
     hh0.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:[NSString stringWithFormat:@"Clocks-white/%@", imageNames[0]] ofType:@"png"]];
@@ -124,15 +124,13 @@ static const float kImageHeight = 144.0;
     ss0.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:[NSString stringWithFormat:@"Clocks-white/%@", imageNames[4]] ofType:@"png"]];
     ss1.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:[NSString stringWithFormat:@"Clocks-white/%@", imageNames[5]] ofType:@"png"]];
 
-    NSDate *now = [NSDate date];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"ss"];
-    if ([[formatter stringFromDate:now] intValue] % 2 == 0) {
+    NSString *date = [self getNowDateWithFormat:@"ss"];
+    if ([date intValue] % 2 == 0) {
         semi0.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:[NSString stringWithFormat:@"Clocks-white/%@", [self getClockSemiImageName]] ofType:@"png"]];
         semi1.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:[NSString stringWithFormat:@"Clocks-white/%@", [self getClockSemiImageName]] ofType:@"png"]];
         [self imageFadeIn:semi0];
         [self imageFadeIn:semi1];
-    } else if ([[formatter stringFromDate:now] intValue] % 2 == 1) {
+    } else if ([date intValue] % 2 == 1) {
         [self imageFadeOut:semi0];
         [self imageFadeOut:semi1];
     }
@@ -159,12 +157,8 @@ static const float kImageHeight = 144.0;
 
 - (NSArray *)getClockImageNames
 {
-    NSDate *now = [NSDate date];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"HHmmss"];
-    NSString *date = [formatter stringFromDate:now];
     NSArray *nums = @[@"35", @"26", @"27", @"31", @"28", @"23", @"24", @"31", @"33", @"47"];
-
+    NSString *date = [self getNowDateWithFormat:@"HHmmss"];
     NSMutableArray *images = [NSMutableArray array];
     for (unsigned int i=0; i<6; i++) {
         int datenum = [[date substringWithRange:NSMakeRange(i,1)] intValue];
@@ -178,7 +172,19 @@ static const float kImageHeight = 144.0;
 
 - (NSString *)getClockSemiImageName
 {
-    return [NSString stringWithFormat:@"semi_%d", arc4random() % 22]; // xxx: semi_xx 22 pattern files
+    return [NSString stringWithFormat:@"semi_%d", arc4random() % 22]; // xxx: semi_xx.png 22 pattern files
+}
+
+- (NSString *)getNowDateWithFormat:(NSString *)format
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    NSLocale *locale = [[[NSLocale alloc] initWithLocaleIdentifier:[[NSLocale preferredLanguages] objectAtIndex:0]] autorelease];
+    [formatter setLocale:locale];
+    [formatter setDateFormat:format];
+    NSDate *now = [NSDate date];
+    NSString *date = [formatter stringFromDate:now];
+
+    return date;
 }
 
 - (void)setAnimating:(BOOL)animating

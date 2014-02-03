@@ -27,4 +27,5 @@
 - (void)imageFadeOut:(UIImageView*)view;
 - (NSArray *)getClockImageNames;
 - (NSString *)getClockSemiImageName;
+- (NSString *)getNowDateWithFormat:(NSString *)format;
 @end
