@@ -11,5 +11,5 @@ Licence
 MIT License.
 
 ###Referenced Project
-####[hirakujira - SuperScroller](https://github.com/hirakujira/DogFan-Wallpaper)
-####[akiland - SwipeSelection](https://github.com/akiland/ProceduralWallpaper)
+####[hirakujira - DogFan Wallpaper](https://github.com/hirakujira/DogFan-Wallpaper)
+####[akiland - ProceduralWallpaper](https://github.com/akiland/ProceduralWallpaper)
