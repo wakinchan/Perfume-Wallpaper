@@ -1,7 +1,7 @@
 Package: com.kindadev.perfumewallpaper
 Name: Perfume Wallpaper
 Depends: mobilesubstrate, tw.hiraku.proceduralwploader, firmware (>= 7.0)
-Version: 0.1
+Version: 0.2
 Architecture: iphoneos-arm
 Description: Perfume Wallpaer for iOS 7. Perfume is one of the top Techno-Pop trio in Jappan.
 Maintainer: kinda

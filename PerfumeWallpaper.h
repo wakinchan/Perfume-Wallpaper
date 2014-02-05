@@ -15,14 +15,14 @@
     UIImageView *semi0;
     UIImageView *semi1;
     UIImageView *semi2;
-    UIImageView *dome;
-    
-    BOOL isAnimating;
+    UIImageView *symbol;
 }
 @property (nonatomic, retain)NSTimer* updateTimer;
 @property (nonatomic, retain)NSTimer* spinTimer;
 
 - (void)update;
+- (void)spin;
+- (void)stopSpin;
 - (void)imageFadeIn:(UIImageView*)view;
 - (void)imageFadeOut:(UIImageView*)view;
 - (NSArray *)getClockImageNames;

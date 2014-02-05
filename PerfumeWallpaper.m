@@ -89,9 +89,6 @@ static const float kImageHeight = 144.0;
     semi2.frame = CGRectMake(504, 0, kSemiImageWidth, kImageHeight);
     */
 
-    dome = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:[bundle pathForResource:@"dome_circle" ofType:@"png"]]];
-    dome.frame = CGRectMake(self.frame.size.width/2-160, self.frame.size.height/2-160, 320, 320);
-
     UIView *view = [[UIView alloc] init];
     view.transform = CGAffineTransformMakeScale(0.55, 0.55);
     view.contentMode = UIViewContentModeScaleAspectFit;
@@ -106,7 +103,10 @@ static const float kImageHeight = 144.0;
     [view addSubview:semi0];
     [view addSubview:semi1];
 
-    [self addSubview:dome];
+    symbol = [[UIImageView alloc] init];
+    symbol.frame = CGRectMake(self.frame.size.width/2-124, self.frame.size.height/2-113, 242, 242);
+    [self addSubview:symbol];
+
     [self addSubview:view];
     
     return self;
@@ -136,12 +136,32 @@ static const float kImageHeight = 144.0;
     }
 }
 
+- (void)spin
+{
+    [UIView animateWithDuration:0.7f
+                          delay:0.0f
+                        options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionRepeat
+                     animations:^{symbol.transform = CGAffineTransformRotate(symbol.transform, M_PI / 2);}
+                     completion:nil];
+}
+
+- (void)stopSpin
+{
+    [self imageFadeOut:symbol];
+    [symbol.layer removeAllAnimations];
+    symbol.transform = CGAffineTransformIdentity;
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    symbol.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:@"SymbolSilhoutte" ofType:@"png"]];
+    symbol.frame = CGRectMake(self.frame.size.width/2-160, self.frame.size.height/2-160, 320, 320);
+    [self imageFadeIn:symbol];
+}
+
 - (void)imageFadeIn:(UIImageView*)view
 {
-    view.alpha = 0.3;
+    view.alpha = 0;
     [UIView beginAnimations:@"fadeIn" context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-    [UIView setAnimationDuration:2.f];
+    [UIView setAnimationDuration:1.f];
     view.alpha = 1;
     [UIView commitAnimations];
 }
@@ -150,7 +170,7 @@ static const float kImageHeight = 144.0;
 {
     [UIView beginAnimations:@"fadeOut" context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
-    [UIView setAnimationDuration:2.f];
+    [UIView setAnimationDuration:1.f];
     view.alpha = 0;
     [UIView commitAnimations];
 }
@@ -195,10 +215,22 @@ static const float kImageHeight = 144.0;
             self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(update) userInfo:nil repeats:YES];
             [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
         }
+        if (!self.spinTimer) {
+            NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+            symbol.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:@"SymbolWhite" ofType:@"png"]];
+            symbol.frame = CGRectMake(self.frame.size.width/2-124, self.frame.size.height/2-113, 242, 242);
+            [self spin];
+            self.spinTimer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(stopSpin) userInfo:nil repeats:NO];
+        }
     } else {
         if (self.updateTimer) {
             [self.updateTimer invalidate];
             self.updateTimer = nil;
+        }
+        if (self.spinTimer) {
+            [self.spinTimer invalidate];
+            self.spinTimer = nil;
+            [self stopSpin];
         }
     }
 }
