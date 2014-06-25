@@ -10,6 +10,7 @@ Licence
 =================
 MIT License.
 
-###Referenced Project
+Peferenced Project
+=================
 ####[hirakujira - DogFan Wallpaper](https://github.com/hirakujira/DogFan-Wallpaper)
 ####[akiland - ProceduralWallpaper](https://github.com/akiland/ProceduralWallpaper)

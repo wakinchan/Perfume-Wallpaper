@@ -17,16 +17,26 @@ static const float kImageHeight = 144.0;
     return @"PerfumeWallpaper";
 }
 
-+ (BOOL)colorChangesSignificantly
-{
-    return YES;
-}
-
 + (NSArray *)presetWallpaperOptions
 {
     return @[
              @{ @"kSBUIMagicWallpaperThumbnailNameKey": @"Preview",@"info": @"1" },
              ];
+}
+
++ (BOOL)colorChangesSignificantly
+{
+    return YES;
+}
+
++ (id)thumbnailImageName
+{
+    return @"Preview";
+}
+
++ (id)representativeThumbnailImageName
+{
+    return @"Preview";
 }
 
 - (void)setWallpaperOptions:(NSDictionary *)options
@@ -117,17 +127,17 @@ static const float kImageHeight = 144.0;
     NSArray *imageNames = [self getClockImageNames];
 
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    hh0.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:[NSString stringWithFormat:@"Clocks-white/%@", imageNames[0]] ofType:@"png"]];
-    hh1.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:[NSString stringWithFormat:@"Clocks-white/%@", imageNames[1]] ofType:@"png"]];
-    mm0.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:[NSString stringWithFormat:@"Clocks-white/%@", imageNames[2]] ofType:@"png"]];
-    mm1.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:[NSString stringWithFormat:@"Clocks-white/%@", imageNames[3]] ofType:@"png"]];
-    ss0.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:[NSString stringWithFormat:@"Clocks-white/%@", imageNames[4]] ofType:@"png"]];
-    ss1.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:[NSString stringWithFormat:@"Clocks-white/%@", imageNames[5]] ofType:@"png"]];
+    hh0.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:[NSString stringWithFormat:@"NumbersWhite/%@", imageNames[0]] ofType:@"png"]];
+    hh1.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:[NSString stringWithFormat:@"NumbersWhite/%@", imageNames[1]] ofType:@"png"]];
+    mm0.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:[NSString stringWithFormat:@"NumbersWhite/%@", imageNames[2]] ofType:@"png"]];
+    mm1.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:[NSString stringWithFormat:@"NumbersWhite/%@", imageNames[3]] ofType:@"png"]];
+    ss0.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:[NSString stringWithFormat:@"NumbersWhite/%@", imageNames[4]] ofType:@"png"]];
+    ss1.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:[NSString stringWithFormat:@"NumbersWhite/%@", imageNames[5]] ofType:@"png"]];
 
     NSString *date = [self getNowDateWithFormat:@"ss"];
     if ([date intValue] % 2 == 0) {
-        semi0.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:[NSString stringWithFormat:@"Clocks-white/%@", [self getClockSemiImageName]] ofType:@"png"]];
-        semi1.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:[NSString stringWithFormat:@"Clocks-white/%@", [self getClockSemiImageName]] ofType:@"png"]];
+        semi0.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:[NSString stringWithFormat:@"NumbersWhite/%@", [self getClockSemiImageName]] ofType:@"png"]];
+        semi1.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:[NSString stringWithFormat:@"NumbersWhite/%@", [self getClockSemiImageName]] ofType:@"png"]];
         [self imageFadeIn:semi0];
         [self imageFadeIn:semi1];
     } else if ([date intValue] % 2 == 1) {
